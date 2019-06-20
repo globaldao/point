@@ -1,0 +1,26 @@
+[Unit]
+Description=POINT's distributed currency daemon
+After=network.target
+
+[Service]
+User=POINT
+Group=POINT
+
+Type=forking
+PIDFile=/var/lib/POINTd/POINTd.pid
+
+ExecStart=/usr/bin/POINTd -daemon -pid=/var/lib/POINTd/POINTd.pid \
+          -conf=/etc/POINT/POINT.conf -datadir=/var/lib/POINTd
+
+ExecStop=-/usr/bin/POINT-cli -conf=/etc/POINT/POINT.conf \
+         -datadir=/var/lib/POINTd stop
+
+Restart=always
+PrivateTmp=true
+TimeoutStopSec=60s
+TimeoutStartSec=2s
+StartLimitInterval=120s
+StartLimitBurst=5
+
+[Install]
+WantedBy=multi-user.target
