@@ -1,7 +1,7 @@
 Point Coin
 ==========
 
-Más información en [Point](https://pointcoin.website).
+Más información en [Global DAO](https://globaldao.network).
 
 ### Coin Specs
 <table>
