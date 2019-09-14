@@ -1611,7 +1611,7 @@ int64_t GetBlockValue(int nHeight)
                 nMoneySupplyActual = 1;
             }
 
-            if (nVelocidad > 0){
+            if (nVelocidad > 0.000001){
                 LogPrintf("############################PRINT TEST VELOCIDAD POSITIVA\n");
 
                 if (nValorPromedio < nInflacion){
