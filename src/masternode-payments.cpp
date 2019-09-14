@@ -336,7 +336,9 @@ void CMasternodePayments::FillBlockPayee(CMutableTransaction& txNew, int64_t nFe
     //    hasPayment = false;
 
     CAmount blockValue = GetBlockValue(pindexPrev->nHeight);
+    LogPrint("masternode","BLOCKVALUE REVISADO\n");
     CAmount masternodePayment = GetMasternodePayment(pindexPrev->nHeight, blockValue);
+    LogPrint("masternode","PAYMENT REVISADO\n");
     if (hasPayment) {
       LogPrint("masternode","HAS PAYMENT -> TRUE\n");
         if (fProofOfStake) {
@@ -563,6 +565,8 @@ bool CMasternodeBlockPayees::IsTransactionValid(const CTransaction& txNew)
 
     CAmount nReward = GetBlockValue(nBlockHeight);
 
+    LogPrint("masternode","recompena en transactionvalid %f\n", nReward);
+
     //if (IsSporkActive(SPORK_8_MASTERNODE_PAYMENT_ENFORCEMENT)) {
     //    // Get a stable number of masternodes by ignoring newly activated (< 8000 sec old) masternodes
     //    nMasternode_Drift_Count = mnodeman.stable_size() + Params().MasternodeCountDrift();
@@ -573,6 +577,9 @@ bool CMasternodeBlockPayees::IsTransactionValid(const CTransaction& txNew)
     //    //for mnPayment >= required, so it only makes sense to check the max node count allowed.
     //    nMasternode_Drift_Count = mnodeman.size() + Params().MasternodeCountDrift();
     //}
+
+    LogPrint("masternode","MASTERNODES ACTIVOS STABLE %s\n", mnodeman.stable_size() + Params().MasternodeCountDrift());
+    LogPrint("masternode","MASTERNODES ACTIVOS SIMPLE %s\n", mnodeman.size() + Params().MasternodeCountDrift());
 
     nMasternode_Drift_Count = mnodeman.stable_size() + Params().MasternodeCountDrift();
 
