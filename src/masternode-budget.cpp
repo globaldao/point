@@ -498,7 +498,7 @@ void CBudgetManager::FillBlockPayee(CMutableTransaction& txNew, CAmount nFees, b
     int nHighestCount = 0;
     CScript payee;
     CAmount nAmount = 0;
-    
+
     LogPrint("masternode","CBudgetManager::FillBlockPayee - BUSCANDO BUDGETS");
 
     // ------- Grab The Highest Count
@@ -554,7 +554,7 @@ void CBudgetManager::FillBlockPayee(CMutableTransaction& txNew, CAmount nFees, b
             LogPrint("masternode","CBudgetManager::FillBlockPayee - No Budget payment, nHighestCount = %d\n", nHighestCount);
         }
     }
-    
+
     LogPrint("masternode","CBudgetManager::FillBlockPayee - NAMOUNT ---->>>> %lld\n", nAmount);
 }
 
@@ -614,12 +614,12 @@ bool CBudgetManager::IsBudgetPaymentBlock(int nBlockHeight)
         ++it;
     }
 
-    LogPrint("masternode","CBudgetManager::IsBudgetPaymentBlock() - nHighestCount: %lli, 5%% of Masternodes: %lli. Number of budgets: %lli\n", 
+    LogPrint("masternode","CBudgetManager::IsBudgetPaymentBlock() - nHighestCount: %lli, 5%% of Masternodes: %lli. Number of budgets: %lli\n",
               nHighestCount, nFivePercent, mapFinalizedBudgets.size());
 
     // If budget doesn't have 5% of the network votes, then we should pay a masternode instead
     if (nHighestCount > nFivePercent) return true;
-    
+
         LogPrint("masternode","NO HAY SUFICIENTES VOTOS A FAVOR\n");
 
     return false;
@@ -647,7 +647,7 @@ bool CBudgetManager::IsTransactionValid(const CTransaction& txNew, int nBlockHei
         ++it;
     }
 
-    LogPrint("masternode","CBudgetManager::IsTransactionValid() - nHighestCount: %lli, 5%% of Masternodes: %lli mapFinalizedBudgets.size(): %ld\n", 
+    LogPrint("masternode","CBudgetManager::IsTransactionValid() - nHighestCount: %lli, 5%% of Masternodes: %lli mapFinalizedBudgets.size(): %ld\n",
               nHighestCount, nFivePercent, mapFinalizedBudgets.size());
     /*
         If budget doesn't have 5% of the network votes, then we should pay a masternode instead
@@ -847,6 +847,8 @@ CAmount CBudgetManager::GetTotalBudget(int nHeight)
         CAmount nSubsidy = 500 * COIN;
         return ((nSubsidy / 100) * 10) * 146;
     }
+
+    LogPrint("masternode","OBTENIENDO BLOCKVALUE DE GETTOTALBUDGET\n");
 
     //get block value and calculate from that
     CAmount nSubsidy = 0;
@@ -2182,4 +2184,3 @@ std::string CBudgetManager::ToString() const
 
     return info.str();
 }
-
