@@ -2220,6 +2220,8 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     CAmount nExpectedMint = GetBlockValue(pindex->pprev->nHeight);
     nExpectedMint = nExpectedMint + GetMasternodePayment(pindex->pprev->nHeight, nExpectedMint);
 
+    LogPrintf("MASTERNODE PAYMENT ESPERADO: %f\n", FormatMoney(GetMasternodePayment(pindex->pprev->nHeight, nExpectedMint)));
+
     if (block.IsProofOfWork())
         nExpectedMint += nFees;
 
