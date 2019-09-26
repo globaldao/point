@@ -253,13 +253,7 @@ bool IsBlockPayeeValid(const CBlock& block, int nBlockHeight)
     //}
 
     //check for masternode payee
-    if (masternodePayments.IsTransactionValid(txNew, nBlockHeight)) {
-        LogPrint("masternode","TRANSACCION VALIDA %s\n", txNew.ToString().c_str());
-        return true;
-    } else {
-      LogPrint("masternode","TRANSACCION INVALIDA %s\n", txNew.ToString().c_str());
-      return false;
-    }
+    if (masternodePayments.IsTransactionValid(txNew, nBlockHeight))
         return true;
     LogPrint("masternode","Invalid mn payment detected %s\n", txNew.ToString().c_str());
 
