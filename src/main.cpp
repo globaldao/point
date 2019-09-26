@@ -1574,31 +1574,30 @@ double ConvertBitsToDouble(unsigned int nBits)
 
 int64_t GetBlockValue(int nHeight)
 {
-
+    
     CBlockIndex* pindexActual = chainActive.Tip();
-
+    
     double nAltura = nHeight;
     LogPrintf("############################PRINT TEST ALTURA: %.8g\n", nAltura);
-
+    
     double nValorTotaldeTx = nValorTotal * 0.00000001;
     LogPrintf("############################PRINT TEST VALOR TOTAL: %.8g\n", nValorTotaldeTx);
-
+            
     CAmount nMoneySupplyActual = pindexActual->nMoneySupply * 0.00000001;
     LogPrintf("############################PRINT TEST MONEY SUPPLY: %.8g\n", nMoneySupplyActual);
-
+    
     double nTx = pindexActual->nTx - 1;
     LogPrintf("############################PRINT TEST NUMERO DE TXS: %.8g\n", nTx);
-
+    
     double nInflacion = ((nAltura - 1) * 0.000000019) + (nAltura * 0.0001);
     LogPrintf("############################PRINT TEST INFLACION: %.8g\n", nInflacion);
-
+    
     double nValorPromedio =  nValorTotaldeTx / nTx ;
     LogPrintf("############################PRINT TEST VALOR PROMEDIO: %.8g\n", nValorPromedio);
-
-    float nVelocidad;
-    nVelocidad = float(nValorPromedio) / float(nMoneySupplyActual);
-    LogPrintf("############################PRINT TEST VELOCIDAD: %f\n", nVelocidad);
-
+            
+    double nVelocidad = nValorPromedio / nMoneySupplyActual;
+    LogPrintf("############################PRINT TEST VELOCIDAD: %.8g\n", nVelocidad);
+    
     if (nHeight == 0) {
         if (Params().NetworkID() == CBaseChainParams::TESTNET) {
             return 50000 * COIN;
@@ -1622,22 +1621,22 @@ int64_t GetBlockValue(int nHeight)
             }
         }
     }
-
+    
     LogPrintf("\n\n");
-
+    
     return 0;
 }
 
 int64_t GetMasternodePayment(int nHeight, int64_t blockValue, int nMasternodeCount)
 {
-
+    
     double nRecompensa = (((nHeight-1)*0.000000152)+(nHeight*0.00000001)*0.001);
     CAmount MNReward = nRecompensa * COIN;
-
+    
     LogPrintf("\n############################PRINT TEST MASTERNODES ACTIVOS: %d\n", nMasternodeCount);
     LogPrintf("\n############################PRINT TEST MASTERNODES BLOCKVALUE: %d\n", blockValue);
     LogPrintf("\n############################PRINT TEST MASTERNODES RECOMPENSA: %.8g\n", MNReward);
-
+    
     return MNReward;
 }
 
@@ -2187,7 +2186,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
             control.Add(vChecks);
         }
         nValueOut += tx.GetValueOut();
-
+        
         CTxUndo undoDummy;
         if (i > 0) {
             blockundo.vtxundo.push_back(CTxUndo());
@@ -2202,7 +2201,7 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     CAmount nMoneySupplyPrev = pindex->pprev ? pindex->pprev->nMoneySupply : 0;
     pindex->nMoneySupply = nMoneySupplyPrev + nValueOut - nValueIn;
     pindex->nMint = pindex->nMoneySupply - nMoneySupplyPrev + nFees;
-
+    
     nValorTotal = nValorAcumulado + nValueOut;
 
     LogPrintf("XX69----------> ConnectBlock(): nValueOut: %s, nValueIn: %s, nFees: %s, nMint: %s \n",
@@ -2219,10 +2218,10 @@ bool ConnectBlock(const CBlock& block, CValidationState& state, CBlockIndex* pin
     //PoW phase redistributed fees to miner. PoS stage destroys fees.
     CAmount nExpectedMint = GetBlockValue(pindex->pprev->nHeight);
     nExpectedMint = nExpectedMint + GetMasternodePayment(pindex->pprev->nHeight, nExpectedMint);
-
+    
     if (block.IsProofOfWork())
         nExpectedMint += nFees;
-
+    
     LogPrintf("Minado esperado: %s -> Minado: %s\n", FormatMoney(nExpectedMint), FormatMoney(pindex->nMint));
 
     if (!IsBlockValueValid(block, nExpectedMint, pindex->nMint)) {
@@ -3197,21 +3196,21 @@ bool CheckBlock(const CBlock& block, CValidationState& state, bool fCheckPOW, bo
         // but issue an initial reject message.
         // The case also exists that the sending peer could not have enough data to see
         // that this block is invalid, so don't issue an outright ban.
-
+        
         LogPrintf("CheckBlock() : REVISANDO BLOQUE PARA PAYEE BUDGET\n");
-
+        
         if (nHeight != 0 && !IsInitialBlockDownload()) {
-
+            
             LogPrintf("CheckBlock() : REVISANDO ISBLOCKPAYEEVALID BUDGET\n");
-
+            
             if (!IsBlockPayeeValid(block, nHeight)) {
                 mapRejectedBlocks.insert(make_pair(block.GetHash(), GetTime()));
                 return state.DoS(0, error("CheckBlock() : Couldn't find masternode/budget payment"),
                         REJECT_INVALID, "bad-cb-payee");
             }
-
+            
             LogPrintf("CheckBlock() : ISBLOCKPAYEEVALID TRUE\n");
-
+            
         } else {
             if (fDebug)
                 LogPrintf("CheckBlock(): Masternode payment check skipped on sync - skipping IsBlockPayeeValid()\n");
@@ -4365,7 +4364,7 @@ string GetWarnings(string strFor)
     string strRPC;
 
     if (!CLIENT_VERSION_IS_RELEASE)
-    {
+    {  
         strStatusBar =  _("This is a pre-release test build - use at your own risk - do not use for staking or merchant applications!");
         strStatusBar += "\n\n";
         strStatusBar += _("This version will only run on TESTNET");
