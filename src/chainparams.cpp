@@ -112,7 +112,7 @@ public:
         genesis.nTime = 1557187200;
         genesis.nBits = 0x1e0ffff0;
         genesis.nNonce = 348655;
-        
+
 
         hashGenesisBlock = genesis.GetHash();
         assert(hashGenesisBlock == uint256("0x00000c9c17add63997357d96e48fcc66ff5d7526934822f0f961273d5025da28"));
@@ -120,6 +120,8 @@ public:
 
         vSeeds.clear();
         vSeeds.push_back(CDNSSeedData("165.227.14.110", "165.227.14.110"));
+        vSeeds.push_back(CDNSSeedData("138.68.246.74", "138.68.246.74"));
+        vSeeds.push_back(CDNSSeedData("107.170.70.185", "107.170.70.185"));
 
         base58Prefixes[PUBKEY_ADDRESS] = std::vector<unsigned char>(1, 55); // M
         base58Prefixes[SCRIPT_ADDRESS] = std::vector<unsigned char>(1, 16); // N
